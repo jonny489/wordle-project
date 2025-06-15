@@ -30,13 +30,19 @@ main {
     flex-grow: 1; /* Allows the game board to take up available space */
 }
 
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Game Board Grid */
 #game-board {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 5px;
-    width:90vh;
-    max-width: 330px;
+    width: 90vh;
+    max-width: 400px;
     height: auto;
     aspect-ratio: 5 / 6;
 }
@@ -91,6 +97,51 @@ main {
     padding: 20px 30px;
 }
 
+/* Pop up after win or lose section */
+
+#popup-container {
+    position: fixed; /* Correct! Keeps it on screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    
+    /* These are correct for centering the box inside */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#popup-content {
+    background-color: #4c4c4c; /* A slightly darker gray */
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center; /* Center the text */
+
+    /* New rules to stack the text and button vertically */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Adds a nice space between the text and the button */
+}
+
+.playagain {
+    border: 0;
+    padding: 12px 20px;
+    background-color: #538d4e;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer; /* Makes it look like a clickable button */
+    transition-duration: 0.2s;
+}
+
+.playagain:hover {
+    background-color: #6aaa64; /* A slightly lighter green on hover */
+}
 
 /* -- Tile Color States (We will add these classes with JavaScript) -- */
 .tile.correct {
@@ -118,6 +169,29 @@ main {
 
     #keyboard button {
         padding: 15px 5px; /* Adjust padding on keyboard keys */
+        font-size: 0.9rem; /* Make the key font a little smaller */
+        touch-action: manipulation;
+    }
+
+    .wide-key {
+        padding: 15px 10px; /* Adjust wide keys too */
+    }
+}
+
+@media (max-width: 450px) {
+    /* These styles only apply on screens 380px wide or smaller */
+
+    #gameboard {
+        width: 90%;
+        height: 90%;
+    }
+    
+    .tile {
+        font-size: 1.8rem; /* Make the letter font a little smaller */
+    }
+
+    #keyboard button {
+        padding: 12px 12px; /* Adjust padding on keyboard keys */
         font-size: 0.9rem; /* Make the key font a little smaller */
         touch-action: manipulation;
     }

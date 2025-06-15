@@ -42,6 +42,9 @@ function handleTileClick() {
 
 //data key is more specific
 
+const popupContainer = document.getElementById("popup-container");
+const playAgainButton = document.querySelector(".playagain");
+const popupText = document.getElementById('popup-message')
 
 function handleKeyboardClick(event){
     if(isGameOver) return;
@@ -72,6 +75,11 @@ function handleKeyboardClick(event){
             if (guessString===word){
                 isGameOver = true;
                 console.log("You win! Congrats!");
+                popupContainer.style.display = "flex";
+                popupText.textContent = "You so sigma! You won! The word was: " + word;
+                playAgainButton.addEventListener("click", () => {
+                    location.reload();
+                })
                 return;
             }
             currentTile = 0;
@@ -79,6 +87,12 @@ function handleKeyboardClick(event){
             if (currentRow===6){
                 isGameOver = true;
                 console.log("Game over! You lost!")
+                popupContainer.style.display = "flex";
+                popupText.textContent = "Unfortunately you are not so sigma...you won lost! The word was: " + word;
+                playAgainButton.addEventListener("click", () => {
+                    location.reload();
+                })
+                return;
             }
             currentGuess = [];
         } else {
