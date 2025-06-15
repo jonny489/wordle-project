@@ -1,14 +1,14 @@
-/* Basic Setup */
 body {
     font-family: Arial, sans-serif;
     background-color: #121213;
     color: white;
+    
+    /* --- NEW STYLES --- */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 100vh;
-    margin: 0;
+    height: 100vh; /* vh stands for "viewport height" */
+    margin: 0; /* Remove default browser margin */
+    justify-content: space-between; /* This helps distribute space */
 }
 
 header {
