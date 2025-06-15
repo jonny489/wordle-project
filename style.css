@@ -35,8 +35,10 @@ main {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 5px;
-    width: 330px;
-    height: 400px;
+    width:90vh;
+    max-width: 330px;
+    height: auto;
+    aspect-ratio: 5 / 6;
 }
 
 .tile {
@@ -104,4 +106,23 @@ main {
 .tile.absent {
     background-color: #3a3a3c;
     border-color: #3a3a3c;
+}
+
+
+@media (max-width: 380px) {
+    /* These styles only apply on screens 380px wide or smaller */
+    
+    .tile {
+        font-size: 1.8rem; /* Make the letter font a little smaller */
+    }
+
+    #keyboard button {
+        padding: 15px 5px; /* Adjust padding on keyboard keys */
+        font-size: 0.9rem; /* Make the key font a little smaller */
+        touch-action: manipulation;
+    }
+
+    .wide-key {
+        padding: 15px 10px; /* Adjust wide keys too */
+    }
 }
