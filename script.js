@@ -72,6 +72,8 @@ function handleKeyboardClick(event){
                 const status = results[i];
                 tile.classList.add(status);
             }
+            // Update keyboard colors based on the guess results
+            updateKeyboardColors(currentGuess.join(''), results);
             if (guessString===word){
                 isGameOver = true;
                 console.log("You win! Congrats!");
@@ -138,6 +140,8 @@ function handleKeyPress(event) {
                 const status = results[i];
                 tile.classList.add(status);
             }
+            // Update keyboard colors based on the guess results
+            updateKeyboardColors(currentGuess.join(''), results);
             if (guessString===word){
                 isGameOver = true;
                 console.log("You win! Congrats!");
@@ -212,6 +216,43 @@ function checkGuess(guessWord, targetWord) {
     }
 
     return results; // The function's final report!
+}
+
+function updateKeyboardColors(guessWord, results) {
+    // Create a map to track the best status for each letter
+    const letterStatus = {};
+    
+    // First pass: collect the best status for each letter
+    for (let i = 0; i < 5; i++) {
+        const letter = guessWord[i];
+        const status = results[i];
+        
+        // Only update if we don't have a better status already
+        if (!letterStatus[letter] || getStatusPriority(status) > getStatusPriority(letterStatus[letter])) {
+            letterStatus[letter] = status;
+        }
+    }
+    
+    // Second pass: update keyboard colors
+    for (const letter in letterStatus) {
+        const keyElement = document.querySelector(`button[data-key="${letter}"]`);
+        if (keyElement) {
+            // Remove any existing color classes
+            keyElement.classList.remove('correct', 'present', 'absent');
+            // Add the appropriate color class
+            keyElement.classList.add(letterStatus[letter]);
+        }
+    }
+}
+
+function getStatusPriority(status) {
+    // Higher number = higher priority
+    switch (status) {
+        case 'correct': return 3;
+        case 'present': return 2;
+        case 'absent': return 1;
+        default: return 0;
+    }
 }
 
 async function startGame() {
