@@ -111,6 +111,74 @@ function handleKeyboardClick(event){
     }
 }
 
+function handleKeyPress(event) {
+    if(isGameOver) return;
+    
+    const key = event.key.toLowerCase();
+    
+    // Handle letter keys (a-z)
+    if (key.length === 1 && key >= 'a' && key <= 'z' && currentTile < 5) {
+        let tileIndex = currentRow * 5 + currentTile;
+        const currentTileElement = tiles[tileIndex];
+        currentTileElement.textContent = key;
+        currentTile += 1;
+        currentGuess.push(key);
+        return;
+    }
+    
+    // Handle Enter key
+    if (key === 'enter') {
+        if(currentTile === 5) {
+            console.log("submitting guess:", currentGuess.join(""));
+            const guessString = currentGuess.join("");
+            const results = checkGuess(currentGuess.join(''), word);
+            const startTileIndex = currentRow * 5;
+            for (let i = 0; i< 5; i++){
+                const tile = tiles[startTileIndex + i];
+                const status = results[i];
+                tile.classList.add(status);
+            }
+            if (guessString===word){
+                isGameOver = true;
+                console.log("You win! Congrats!");
+                popupContainer.style.display = "flex";
+                popupText.textContent = "You so sigma! You won! The word was: " + word;
+                playAgainButton.addEventListener("click", () => {
+                    location.reload();
+                })
+                return;
+            }
+            currentTile = 0;
+            currentRow++;
+            if (currentRow===6){
+                isGameOver = true;
+                console.log("Game over! You lost!")
+                popupContainer.style.display = "flex";
+                popupText.textContent = "Unfortunately you are not so sigma...you won lost! The word was: " + word;
+                playAgainButton.addEventListener("click", () => {
+                    location.reload();
+                })
+                return;
+            }
+            currentGuess = [];
+        } else {
+            console.log("Word is not long enough!");
+        }
+        return;
+    }
+    
+    // Handle Backspace key
+    if (key === 'backspace') {
+        if (currentTile > 0){
+            currentTile--;
+            currentGuess.pop();
+            let tileIndex = currentRow * 5 + currentTile;
+            const currentTileElement = tiles[tileIndex];
+            currentTileElement.textContent = "";
+        }
+    }
+}
+
 function checkGuess(guessWord, targetWord) {
     const results = []; // This will store our results ['correct', 'present', 'absent']
     const targetLetters = targetWord.split(''); // Turn the target word into an array of letters we can modify
@@ -167,6 +235,9 @@ async function startGame() {
     for (const key of keys) {
         key.addEventListener('click', handleKeyboardClick);
     }
+    
+    // 5. Set up physical keyboard listener
+    document.addEventListener('keydown', handleKeyPress);
 }
 
 // --- KICK EVERYTHING OFF ---
